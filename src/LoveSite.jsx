@@ -32,7 +32,7 @@ export default function LoveSite() {
   useEffect(() => {
     audio.loop = true;
     audio.volume = 0.5;
-    audio.play();
+    audio.play().catch(() => {});
     setIsPlaying(true);
   }, []);
 
@@ -64,10 +64,10 @@ export default function LoveSite() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-100 to-yellow-200 text-gray-800 p-6 flex flex-col items-center text-center">
+    <div className="min-h-screen bg-gradient-to-b from-yellow-200 to-orange-300 text-gray-800 p-6 flex flex-col items-center text-center">
       {/* Музыкальный плеер вверху */}
       <motion.div
-        className="fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 bg-white text-red-500 px-4 py-2 rounded-full shadow-lg"
+        className="fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 bg-white text-red-500 px-6 py-3 rounded-full shadow-lg border border-red-300"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 2 }}
@@ -86,20 +86,24 @@ export default function LoveSite() {
         Наш День Всех Влюбленных ❤️
       </motion.h1>
 
-      {/* Галерея фото с эффектами появления */}
-      <motion.div className="mt-10 grid grid-cols-2 gap-4">
-        {["/photo1.jpg", "/photo2.jpg", "/photo3.jpg", "/photo4.jpg", "/our-photo.jpg"].map((src, index) => (
-          <motion.img
-            key={index}
-            src={src}
-            alt={`Фото ${index + 1}`}
-            className="rounded-xl shadow-lg w-64 h-64 object-cover mx-auto"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: index * 0.2 }}
-          />
-        ))}
+      {/* Галерея фото с текстом между ними */}
+      <motion.div className="mt-10 flex flex-col gap-6 items-center">
+        {["Наш первый совместный день", "/photo1.jpg", "Наша первая поездка", "/photo2.jpg", "Особенный момент", "/photo3.jpg", "Любимый вечер", "/photo4.jpg", "Навсегда вместе", "/our-photo.jpg"].map((item, index) =>
+          item.startsWith("/") ? (
+            <motion.img
+              key={index}
+              src={item}
+              alt={`Фото ${index + 1}`}
+              className="rounded-xl shadow-lg w-80 h-80 object-cover mx-auto"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: index * 0.2 }}
+            />
+          ) : (
+            <motion.h2 key={index} className="text-2xl font-semibold" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }}>{item}</motion.h2>
+          )
+        )}
       </motion.div>
 
       {/* Видео (загрузка собственного видео) */}
