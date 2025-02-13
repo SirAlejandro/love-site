@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Play } from "lucide-react";
+import { Play, Pause } from "lucide-react";
 
-// Создаём замену для Card, CardContent, Button и Input
 const Card = ({ children }) => (
   <div className="bg-white p-6 rounded-xl shadow-md">{children}</div>
 );
-
-const CardContent = ({ children }) => <div className="p-4">{children}</div>;
 
 const Button = ({ children, onClick }) => (
   <button className="bg-red-500 text-white px-4 py-2 rounded-lg" onClick={onClick}>
@@ -29,6 +26,8 @@ export default function LoveSite() {
   const [accessGranted, setAccessGranted] = useState(false);
   const [password, setPassword] = useState("");
   const correctPassword = "love2024";
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audio = new Audio("/music.mp3");
 
   const handleAccess = () => {
     if (password === correctPassword) {
@@ -36,16 +35,21 @@ export default function LoveSite() {
     }
   };
 
+  const toggleMusic = () => {
+    if (isPlaying) {
+      audio.pause();
+    } else {
+      audio.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
   if (!accessGranted) {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-pink-200 p-6">
         <Card className="p-6 shadow-xl text-center">
           <h2 className="text-2xl font-bold mb-4">Введи пароль</h2>
-          <Input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Пароль..."
-          />
+          <Input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Пароль..." />
           <Button onClick={handleAccess} className="mt-4">Войти</Button>
         </Card>
       </div>
@@ -80,14 +84,42 @@ export default function LoveSite() {
         />
       </motion.div>
 
+      {/* Галерея фото */}
+      <motion.div className="mt-10 grid grid-cols-2 gap-4">
+        {["/photo1.jpg", "/photo2.jpg", "/photo3.jpg", "/photo4.jpg"].map((src, index) => (
+          <motion.img
+            key={index}
+            src={src}
+            alt={`Фото ${index + 1}`}
+            className="rounded-xl shadow-lg w-full h-48 object-cover"
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.3 }}
+          />
+        ))}
+      </motion.div>
+
+      {/* Видео */}
+      <motion.div className="mt-10 flex justify-center">
+        <iframe
+          className="rounded-xl shadow-xl w-full max-w-lg"
+          height="315"
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+      </motion.div>
+
+      {/* Музыка */}
       <motion.div
         className="mt-10 flex justify-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 2 }}
       >
-        <Button className="flex items-center gap-2 bg-white text-red-500 px-4 py-2 rounded-full shadow-lg">
-          <Play size={20} /> Включить музыку
+        <Button onClick={toggleMusic} className="flex items-center gap-2 bg-white text-red-500 px-4 py-2 rounded-full shadow-lg">
+          {isPlaying ? <Pause size={20} /> : <Play size={20} />} {isPlaying ? "Пауза" : "Включить музыку"}
         </Button>
       </motion.div>
     </div>
