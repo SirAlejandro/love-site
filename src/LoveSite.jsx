@@ -1,10 +1,29 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Card, CardContent } from "@shadcn/ui";
-import { Button } from "@shadcn/ui";
-import { Input } from "@shadcn/ui";
-
 import { Play } from "lucide-react";
+
+// Создаём замену для Card, CardContent, Button и Input
+const Card = ({ children }) => (
+  <div className="bg-white p-6 rounded-xl shadow-md">{children}</div>
+);
+
+const CardContent = ({ children }) => <div className="p-4">{children}</div>;
+
+const Button = ({ children, onClick }) => (
+  <button className="bg-red-500 text-white px-4 py-2 rounded-lg" onClick={onClick}>
+    {children}
+  </button>
+);
+
+const Input = ({ value, onChange, placeholder }) => (
+  <input
+    type="password"
+    value={value}
+    onChange={onChange}
+    placeholder={placeholder}
+    className="border p-2 rounded-md w-full"
+  />
+);
 
 export default function LoveSite() {
   const [accessGranted, setAccessGranted] = useState(false);
@@ -23,13 +42,11 @@ export default function LoveSite() {
         <Card className="p-6 shadow-xl text-center">
           <h2 className="text-2xl font-bold mb-4">Введи пароль</h2>
           <Input
-            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Пароль..."
-            className="mb-4"
           />
-          <Button onClick={handleAccess}>Войти</Button>
+          <Button onClick={handleAccess} className="mt-4">Войти</Button>
         </Card>
       </div>
     );
