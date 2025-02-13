@@ -63,10 +63,10 @@ export default function LoveSite() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-yellow-200 via-orange-300 to-red-400 text-gray-800 p-6 flex flex-col items-center text-center">
+    <div className="min-h-screen bg-gradient-to-b from-yellow-300 via-orange-200 to-red-300 text-gray-800 p-6 flex flex-col items-center text-center">
       {/* Музыкальный плеер в стиле Apple */}
       <motion.div
-        className="fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 bg-gray-800 text-white px-8 py-4 rounded-full shadow-xl border border-gray-600"
+        className="fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center gap-3 bg-gray-900 text-white px-8 py-4 rounded-full shadow-xl border border-gray-600"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 2 }}
@@ -89,17 +89,17 @@ export default function LoveSite() {
       </motion.h1>
 
       {/* Галерея фото с текстом между ними, скрытие и проявление фото */}
-      <motion.div className="mt-10 flex flex-col gap-6 items-center">
+      <motion.div className="mt-10 flex flex-col gap-10 items-center">
         {["Наш первый совместный день", "/photo1.jpg", "Наша первая поездка", "/photo2.jpg", "Особенный момент", "/photo3.jpg", "Любимый вечер", "/photo4.jpg", "Навсегда вместе", "/our-photo.jpg"].map((item, index) =>
           item.startsWith("/") ? (
             <motion.div
               key={index}
-              className="rounded-xl shadow-lg w-56 h-56 object-cover mx-auto flex items-center justify-center cursor-pointer"
+              className="rounded-xl shadow-lg w-40 h-40 object-cover mx-auto flex items-center justify-center cursor-pointer"
               style={{ background: revealedPhotos[index] ? "none" : "rgba(0,0,0,0.5)", filter: revealedPhotos[index] ? "none" : "blur(10px)" }}
               onClick={() => revealPhoto(index)}
             >
               {revealedPhotos[index] ? (
-                <img src={item} alt={`Фото ${index + 1}`} className="rounded-xl w-56 h-56 object-cover" />
+                <img src={item} alt={`Фото ${index + 1}`} className="rounded-xl w-40 h-40 object-cover" />
               ) : (
                 <span className="text-white text-lg">Нажми, чтобы раскрыть</span>
               )}
