@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Play, Pause } from "lucide-react";
 
@@ -27,14 +27,7 @@ export default function LoveSite() {
   const [password, setPassword] = useState("");
   const correctPassword = "love2024";
   const [isPlaying, setIsPlaying] = useState(false);
-  const audio = new Audio("/music.mp3");
-
-  useEffect(() => {
-    audio.loop = true;
-    audio.volume = 0.5;
-    audio.play().catch(() => {});
-    setIsPlaying(true);
-  }, []);
+  const audioRef = useRef(new Audio("/music.mp3"));
 
   const handleAccess = () => {
     if (password === correctPassword) {
@@ -43,6 +36,7 @@ export default function LoveSite() {
   };
 
   const toggleMusic = () => {
+    const audio = audioRef.current;
     if (isPlaying) {
       audio.pause();
     } else {
@@ -64,17 +58,20 @@ export default function LoveSite() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-yellow-200 to-orange-300 text-gray-800 p-6 flex flex-col items-center text-center">
-      {/* Музыкальный плеер вверху */}
+    <div className="min-h-screen bg-gradient-to-b from-yellow-300 to-orange-400 text-gray-800 p-6 flex flex-col items-center text-center">
+      {/* Музыкальный плеер с красивым дизайном */}
       <motion.div
-        className="fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 bg-white text-red-500 px-6 py-3 rounded-full shadow-lg border border-red-300"
+        className="fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-full shadow-lg border border-gray-700"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 2 }}
       >
-        <Button onClick={toggleMusic}>
+        <button
+          onClick={toggleMusic}
+          className="flex items-center gap-2 text-white px-4 py-2 rounded-full bg-gray-800 hover:bg-gray-700 transition"
+        >
           {isPlaying ? <Pause size={20} /> : <Play size={20} />} {isPlaying ? "Пауза" : "Включить музыку"}
-        </Button>
+        </button>
       </motion.div>
 
       <motion.h1
@@ -94,7 +91,7 @@ export default function LoveSite() {
               key={index}
               src={item}
               alt={`Фото ${index + 1}`}
-              className="rounded-xl shadow-lg w-80 h-80 object-cover mx-auto"
+              className="rounded-xl shadow-lg w-60 h-60 object-cover mx-auto"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
