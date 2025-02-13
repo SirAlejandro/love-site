@@ -28,6 +28,7 @@ export default function LoveSite() {
   const correctPassword = "love2024";
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(new Audio("/music.mp3"));
+  const [revealedPhotos, setRevealedPhotos] = useState({});
 
   const handleAccess = () => {
     if (password === correctPassword) {
@@ -45,6 +46,10 @@ export default function LoveSite() {
     setIsPlaying(!isPlaying);
   };
 
+  const revealPhoto = (index) => {
+    setRevealedPhotos((prev) => ({ ...prev, [index]: true }));
+  };
+
   if (!accessGranted) {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-pink-100 p-6">
@@ -59,16 +64,16 @@ export default function LoveSite() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-yellow-200 via-orange-300 to-red-400 text-gray-800 p-6 flex flex-col items-center text-center">
-      {/* Музыкальный плеер с красивым дизайном */}
+      {/* Музыкальный плеер в стиле Apple */}
       <motion.div
-        className="fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-3xl shadow-lg border border-gray-700"
+        className="fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 bg-gray-800 text-white px-8 py-4 rounded-full shadow-xl border border-gray-600"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 2 }}
       >
         <button
           onClick={toggleMusic}
-          className="flex items-center gap-2 text-white px-6 py-3 rounded-full bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-600 hover:to-gray-800 transition"
+          className="flex items-center gap-3 text-white px-6 py-3 rounded-full bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-600 hover:to-gray-800 transition shadow-lg"
         >
           {isPlaying ? <Pause size={24} /> : <Play size={24} />} {isPlaying ? "Пауза" : "Включить музыку"}
         </button>
@@ -83,20 +88,22 @@ export default function LoveSite() {
         Наш День Всех Влюбленных ❤️
       </motion.h1>
 
-      {/* Галерея фото с текстом между ними */}
+      {/* Галерея фото с текстом между ними, скрытие и проявление фото */}
       <motion.div className="mt-10 flex flex-col gap-6 items-center">
         {["Наш первый совместный день", "/photo1.jpg", "Наша первая поездка", "/photo2.jpg", "Особенный момент", "/photo3.jpg", "Любимый вечер", "/photo4.jpg", "Навсегда вместе", "/our-photo.jpg"].map((item, index) =>
           item.startsWith("/") ? (
-            <motion.img
+            <motion.div
               key={index}
-              src={item}
-              alt={`Фото ${index + 1}`}
-              className="rounded-xl shadow-lg w-56 h-56 object-cover mx-auto"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-            />
+              className="rounded-xl shadow-lg w-56 h-56 object-cover mx-auto flex items-center justify-center cursor-pointer"
+              style={{ background: revealedPhotos[index] ? "none" : "rgba(0,0,0,0.5)", filter: revealedPhotos[index] ? "none" : "blur(10px)" }}
+              onClick={() => revealPhoto(index)}
+            >
+              {revealedPhotos[index] ? (
+                <img src={item} alt={`Фото ${index + 1}`} className="rounded-xl w-56 h-56 object-cover" />
+              ) : (
+                <span className="text-white text-lg">Нажми, чтобы раскрыть</span>
+              )}
+            </motion.div>
           ) : (
             <motion.h2 key={index} className="text-2xl font-semibold" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }}>{item}</motion.h2>
           )
