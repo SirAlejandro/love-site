@@ -58,19 +58,19 @@ export default function LoveSite() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-yellow-300 to-orange-400 text-gray-800 p-6 flex flex-col items-center text-center">
+    <div className="min-h-screen bg-gradient-to-b from-yellow-200 via-orange-300 to-red-400 text-gray-800 p-6 flex flex-col items-center text-center">
       {/* Музыкальный плеер с красивым дизайном */}
       <motion.div
-        className="fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-full shadow-lg border border-gray-700"
+        className="fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-3xl shadow-lg border border-gray-700"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 2 }}
       >
         <button
           onClick={toggleMusic}
-          className="flex items-center gap-2 text-white px-4 py-2 rounded-full bg-gray-800 hover:bg-gray-700 transition"
+          className="flex items-center gap-2 text-white px-6 py-3 rounded-full bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-600 hover:to-gray-800 transition"
         >
-          {isPlaying ? <Pause size={20} /> : <Play size={20} />} {isPlaying ? "Пауза" : "Включить музыку"}
+          {isPlaying ? <Pause size={24} /> : <Play size={24} />} {isPlaying ? "Пауза" : "Включить музыку"}
         </button>
       </motion.div>
 
@@ -91,7 +91,7 @@ export default function LoveSite() {
               key={index}
               src={item}
               alt={`Фото ${index + 1}`}
-              className="rounded-xl shadow-lg w-60 h-60 object-cover mx-auto"
+              className="rounded-xl shadow-lg w-56 h-56 object-cover mx-auto"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
