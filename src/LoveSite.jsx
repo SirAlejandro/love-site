@@ -90,7 +90,7 @@ export default function LoveSite() {
 
       {/* Галерея фото с текстом между ними, скрытие и проявление фото */}
       <motion.div className="mt-10 flex flex-col gap-10 items-center">
-        {["Наша первая свадьба", "/photo1.jpg", "Создание НАС как семьи", "/photo2.jpg", "Особенный момент - ты и сынулик", "/photo3.jpg", "Мы уже в нашей долгожданной квартире", "/photo4.jpg", "Навсегда вместе", "/our-photo.jpg"].map((item, index) =>
+        {["Наш первый совместный день", "/photo1.jpg", "Наша первая поездка", "/photo2.jpg", "Особенный момент", "/photo3.jpg", "Любимый вечер", "/photo4.jpg", "Навсегда вместе", "/our-photo.jpg"].map((item, index) =>
           item.startsWith("/") ? (
             <motion.div
               key={index}
